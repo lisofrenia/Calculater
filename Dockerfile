@@ -5,10 +5,10 @@ COPY . /src
 WORKDIR /src
 RUN ls
 RUN dotnet restore
-RUN dotnet build "./Calculator.csproj" -c Release -o /app/build
+RUN dotnet build "./WebApplication2.csproj" -c Release -o /app/build
 FROM build AS publish
-RUN dotnet publish "./Calculator.csproj" -c Release -o /app/publish
+RUN dotnet publish "./WebApplication2.csproj" -c Release -o /app/publish
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish ./
-ENTRYPOINT ["dotnet", "Calculator.dll"]
+ENTRYPOINT ["dotnet", "WebApplication2.dll"]

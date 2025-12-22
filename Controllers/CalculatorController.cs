@@ -54,11 +54,11 @@ namespace WebApplication2.Controllers
             ViewBag.Num2 = num2;
             ViewBag.Operation = operation;
 
-            DataInputVarian dataInputVarian = new DataInputVarian();
+            DataInputVarian dataInputVarian = new();
 			dataInputVarian.Num1 = num1.ToString();
 			dataInputVarian.Num2 = num2.ToString();
-			dataInputVarian.Result = result.ToString();
-			dataInputVarian.Operation = operation.ToString();
+            dataInputVarian.Operation = operation.ToString();
+            dataInputVarian.Result = result.ToString();
 
 			_context.DataInputVarians.Add(dataInputVarian);
 			_context.SaveChanges();

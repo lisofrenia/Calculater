@@ -61,9 +61,26 @@ namespace WebApplication2.Controllers
             dataInputVarian.Result = result.ToString();
 
 			_context.DataInputVarians.Add(dataInputVarian);
-			_context.SaveChanges();
+            // _context.SaveChanges();
 
-			return View("Index");
+            try
+            {
+                int saved = _context.SaveChanges();
+                Console.WriteLine($"=== DEBUG: Сохранено записей: {saved} ===");
+
+                if (saved > 0)
+                {
+                    Console.WriteLine($"ID новой записи: {dataInputVarian.ID_DataInputVarian}");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"=== DEBUG: ОШИБКА: {ex.Message} ===");
+                Console.WriteLine($"StackTrace: {ex.StackTrace}");
+                ViewBag.Error = "Ошибка сохранения: " + ex.Message;
+            }
+
+            return View("Index");
 		}
 	}
 

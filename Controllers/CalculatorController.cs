@@ -1,5 +1,7 @@
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using Microsoft.AspNetCore.Mvc;
+using WebApplication2.Data;
 using WebApplication2.Models;
 
 namespace WebApplication2.Controllers
@@ -7,8 +9,15 @@ namespace WebApplication2.Controllers
 	public enum Operation { Add, Subtract, Multiply, Divide }
 
 	public class CalculatorController : Controller
-	{
-		[HttpGet]
+    {
+        private CalculatorContext _context;
+
+        public CalculatorController(CalculatorContext context)
+        {
+            _context = context;
+        }
+
+        [HttpGet]
 		public IActionResult Index()
 		{
 			return View();
@@ -40,11 +49,19 @@ namespace WebApplication2.Controllers
 					result = num1 / num2;
 					break;
 			}
-
 			ViewBag.Result = result;
-			ViewBag.Num1 = num1;
-			ViewBag.Num2 = num2;
-			ViewBag.Operation = operation;
+            ViewBag.Num1 = num1;
+            ViewBag.Num2 = num2;
+            ViewBag.Operation = operation;
+
+            DataInputVarian dataInputVarian = new DataInputVarian();
+			dataInputVarian.Num1 = num1.ToString();
+			dataInputVarian.Num2 = num2.ToString();
+			dataInputVarian.Result = result.ToString();
+			dataInputVarian.Operation = operation.ToString();
+
+			_context.DataInputVarians.Add(dataInputVarian);
+			_context.SaveChanges();
 
 			return View("Index");
 		}

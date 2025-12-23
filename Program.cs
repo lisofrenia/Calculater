@@ -1,16 +1,10 @@
 using Microsoft.EntityFrameworkCore;
-using WebApplication2.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContext<CalculatorContext>(options =>
-{
-    options.UseMySql(connectionString, new MySqlServerVersion(new Version(10, 5, 15)));
-});
 builder.Services.AddRazorPages();
 
 var app = builder.Build();

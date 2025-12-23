@@ -1,7 +1,6 @@
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using Microsoft.AspNetCore.Mvc;
-using WebApplication2.Data;
 using WebApplication2.Models;
 
 namespace WebApplication2.Controllers
@@ -10,12 +9,6 @@ namespace WebApplication2.Controllers
 
 	public class CalculatorController : Controller
     {
-        private CalculatorContext _context;
-
-        public CalculatorController(CalculatorContext context)
-        {
-            _context = context;
-        }
 
         [HttpGet]
 		public IActionResult Index()
@@ -53,33 +46,6 @@ namespace WebApplication2.Controllers
             ViewBag.Num1 = num1;
             ViewBag.Num2 = num2;
             ViewBag.Operation = operation;
-
-            DataInputVarian dataInputVarian = new();
-			dataInputVarian.Num1 = num1.ToString();
-			dataInputVarian.Num2 = num2.ToString();
-            dataInputVarian.Operation = operation.ToString();
-            dataInputVarian.Result = result.ToString();
-
-			_context.DataInputVarians.Add(dataInputVarian);
-            // _context.SaveChanges();
-
-            try
-            {
-                int saved = _context.SaveChanges();
-                Console.WriteLine($"=== DEBUG: Сохранено записей: {saved} ===");
-
-                if (saved > 0)
-                {
-                    Console.WriteLine($"ID новой записи: {dataInputVarian.ID_DataInputVarian}");
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"=== DEBUG: ОШИБКА: {ex.Message} ===");
-                Console.WriteLine($"StackTrace: {ex.StackTrace}");
-                ViewBag.Error = "Ошибка сохранения: " + ex.Message;
-            }
-
             return View("Index");
 		}
 	}
